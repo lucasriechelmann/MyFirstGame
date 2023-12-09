@@ -94,7 +94,7 @@ namespace MyFirstGame
             var variance = 0.5;
             var actualAspectRatio = Window.ClientBounds.Width / (float)Window.ClientBounds.Height;
 
-            if (actualAspectRatio < DESIGNED_RESOLUTIONS_ASPECT_RATIO)
+            if (actualAspectRatio <= DESIGNED_RESOLUTIONS_ASPECT_RATIO)
             {
                 var presentHeight = (int)(Window.ClientBounds.Width / DESIGNED_RESOLUTIONS_ASPECT_RATIO + variance);
                 var barHeight = (Window.ClientBounds.Height - presentHeight) / 2;
@@ -102,7 +102,7 @@ namespace MyFirstGame
                 return new Rectangle(0, barHeight, Window.ClientBounds.Width, presentHeight);
             }
 
-            var presentWidth = (int)(Window.ClientBounds.Height / DESIGNED_RESOLUTIONS_ASPECT_RATIO + variance);
+            var presentWidth = (int)(Window.ClientBounds.Height * DESIGNED_RESOLUTIONS_ASPECT_RATIO + variance);
             var barWidth = (Window.ClientBounds.Width - presentWidth) / 2;
 
             return new Rectangle(barWidth, 0, presentWidth, Window.ClientBounds.Height);
