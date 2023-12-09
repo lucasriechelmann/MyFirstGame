@@ -9,9 +9,14 @@ using System.Linq;
 namespace MyFirstGame.States.Base;
 public abstract class BaseGameState
 {
+    private const string FallbackTexture = "Empty";
+    private ContentManager _contentManager;
     private readonly List<BaseGameObject> _gameObjects = new List<BaseGameObject>();
-    public abstract void LoadContent(ContentManager contentManager);
-    public abstract void UnloadContent(ContentManager contentManager);
+    public abstract void LoadContent();
+    public void UnloadContent() => _contentManager?.Unload();
+    public void Initialize(ContentManager contentManager) => _contentManager = contentManager;
+    protected Texture2D LoadTexture(string textureName) =>
+        _contentManager.Load<Texture2D>(textureName) ?? _contentManager.Load<Texture2D>(FallbackTexture);
     public abstract void HandleInput();
     public event EventHandler<BaseGameState> OnStateSwitched;
     public event EventHandler<Events> OnEventNotification;

@@ -13,24 +13,24 @@ namespace MyFirstGame
         private SpriteBatch _spriteBatch;
         private RenderTarget2D _renderTarget;
         private Rectangle _renderScaleRectangle;
-        BaseGameState _currentGameState;
-        private const int DESIGNED_RESOLUTION_WIDTH = 640;
-        private const int DESIGNED_RESOLUTION_HEIGHT = 480;
-        private const float DESIGNED_RESOLUTIONS_ASPECT_RATIO = DESIGNED_RESOLUTION_WIDTH / (float) DESIGNED_RESOLUTION_HEIGHT;
+        private BaseGameState _currentGameState;
+        private const int DESIGNED_RESOLUTION_WIDTH = 1280;
+        private const int DESIGNED_RESOLUTION_HEIGHT = 720;
+        private const float DESIGNED_RESOLUTION_ASPECT_RATIO = DESIGNED_RESOLUTION_WIDTH / (float) DESIGNED_RESOLUTION_HEIGHT;
+
+        
 
         public MainGame()
         {
             _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = 1024;
-            _graphics.PreferredBackBufferHeight = 768;
-            _graphics.IsFullScreen = false;
-            _graphics.ApplyChanges();
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
         }
-
         protected override void Initialize()
         {
+            _graphics.PreferredBackBufferWidth = DESIGNED_RESOLUTION_WIDTH;
+            _graphics.PreferredBackBufferHeight = DESIGNED_RESOLUTION_HEIGHT;
+            _graphics.IsFullScreen = false;
+            _graphics.ApplyChanges();
             // TODO: Add your initialization logic here
             _renderTarget = new RenderTarget2D(_graphics.GraphicsDevice,
                 DESIGNED_RESOLUTION_WIDTH,
@@ -55,7 +55,7 @@ namespace MyFirstGame
         }
         protected override void UnloadContent()
         {
-            _currentGameState?.UnloadContent(Content);
+            _currentGameState?.UnloadContent();
             base.UnloadContent();
         }
 
@@ -75,14 +75,14 @@ namespace MyFirstGame
             _spriteBatch.Begin();
 
             _currentGameState.Render(_spriteBatch);
-            
+
             _spriteBatch.End();
 
             //Now render the scaled content
             _graphics.GraphicsDevice.SetRenderTarget(null);
             _graphics.GraphicsDevice.Clear(ClearOptions.Target, Color.Black, 1.0f, 0);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
             _spriteBatch.Draw(_renderTarget, _renderScaleRectangle, Color.White);
             _spriteBatch.End();
 
@@ -94,15 +94,15 @@ namespace MyFirstGame
             var variance = 0.5;
             var actualAspectRatio = Window.ClientBounds.Width / (float)Window.ClientBounds.Height;
 
-            if (actualAspectRatio <= DESIGNED_RESOLUTIONS_ASPECT_RATIO)
+            if (actualAspectRatio <= DESIGNED_RESOLUTION_ASPECT_RATIO)
             {
-                var presentHeight = (int)(Window.ClientBounds.Width / DESIGNED_RESOLUTIONS_ASPECT_RATIO + variance);
+                var presentHeight = (int)(Window.ClientBounds.Width / DESIGNED_RESOLUTION_ASPECT_RATIO + variance);
                 var barHeight = (Window.ClientBounds.Height - presentHeight) / 2;
 
                 return new Rectangle(0, barHeight, Window.ClientBounds.Width, presentHeight);
             }
 
-            var presentWidth = (int)(Window.ClientBounds.Height * DESIGNED_RESOLUTIONS_ASPECT_RATIO + variance);
+            var presentWidth = (int)(Window.ClientBounds.Height * DESIGNED_RESOLUTION_ASPECT_RATIO + variance);
             var barWidth = (Window.ClientBounds.Width - presentWidth) / 2;
 
             return new Rectangle(barWidth, 0, presentWidth, Window.ClientBounds.Height);
@@ -113,11 +113,12 @@ namespace MyFirstGame
             {
                 _currentGameState.OnStateSwitched -= CurrentGameState_OnStateSwitched;
                 _currentGameState.OnEventNotification -= CurrentGameState_OnEventNotification;
-                _currentGameState?.UnloadContent(Content);
+                _currentGameState?.UnloadContent();
             }
             
             _currentGameState = gameState;
-            _currentGameState.LoadContent(Content);
+            _currentGameState.Initialize(Content);
+            _currentGameState.LoadContent();
             _currentGameState.OnStateSwitched += CurrentGameState_OnStateSwitched;
             _currentGameState.OnEventNotification += CurrentGameState_OnEventNotification;
 
