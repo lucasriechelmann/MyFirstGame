@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using MyFirstGame.Engine.States;
+using System.Linq;
 
 namespace MyFirstGame.Engine.Sound;
 
@@ -11,9 +12,9 @@ public class SoundManager
     private List<SoundEffectInstance> _soundtracks = new List<SoundEffectInstance>();
     private Dictionary<Type, SoundEffect> _soundBank = new Dictionary<Type, SoundEffect>();
 
-    public void SetSoundtrack(List<SoundEffectInstance> tracks)
+    public void SetSoundtrack(params SoundEffectInstance[] tracks)
     {
-        _soundtracks = tracks;
+        _soundtracks = tracks.ToList();
         _soundtrackIndex = _soundtracks.Count - 1;
     }
 

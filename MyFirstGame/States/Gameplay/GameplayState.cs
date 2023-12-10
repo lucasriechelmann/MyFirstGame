@@ -44,7 +44,7 @@ public class GameplayState : BaseGameState
         // load soundtracks into sound manager
         var track1 = LoadSound("music\\FutureAmbient_1").CreateInstance();
         var track2 = LoadSound("music\\FutureAmbient_2").CreateInstance();
-        _soundManager.SetSoundtrack(new List<SoundEffectInstance>() { track1, track2 });
+        _soundManager.SetSoundtrack(track1, track2);
     }
 
     public override void HandleInput(GameTime gameTime)
