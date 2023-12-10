@@ -8,14 +8,18 @@ public abstract class BaseGameObject
 {
     protected Texture2D _texture;
 
-    private Vector2 _position;
+    protected Vector2 _position = Vector2.One;
     public int zIndex { get; set; }
-    public void OnNotify(Events eventType)
+    public int Width => _texture.Width;
+    public int Height => _texture.Height;
+    public Vector2 Position
+    {
+        get { return _position; }
+        set { _position = value; }
+    }
+    public virtual void OnNotify(Events eventType)
     {
 
     }
-    public void Render(SpriteBatch spriteBatch)
-    {
-        spriteBatch.Draw(_texture, Vector2.One, Color.White);
-    }
+    public virtual void Render(SpriteBatch spriteBatch) => spriteBatch.Draw(_texture, _position, Color.White);
 }

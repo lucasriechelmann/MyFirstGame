@@ -61,7 +61,7 @@ namespace MyFirstGame
 
         protected override void Update(GameTime gameTime)
         {
-            _currentGameState?.HandleInput();
+            _currentGameState?.HandleInput(gameTime);
 
             base.Update(gameTime);
         }
@@ -117,7 +117,7 @@ namespace MyFirstGame
             }
             
             _currentGameState = gameState;
-            _currentGameState.Initialize(Content);
+            _currentGameState.Initialize(Content, _graphics.GraphicsDevice.Viewport.Width, _graphics.GraphicsDevice.Viewport.Height);
             _currentGameState.LoadContent();
             _currentGameState.OnStateSwitched += CurrentGameState_OnStateSwitched;
             _currentGameState.OnEventNotification += CurrentGameState_OnEventNotification;
