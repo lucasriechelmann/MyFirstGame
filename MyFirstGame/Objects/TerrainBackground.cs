@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MyFirstGame.Objects.Base;
+using MyFirstGame.Engine.Objects;
 
 namespace MyFirstGame.Objects;
 
