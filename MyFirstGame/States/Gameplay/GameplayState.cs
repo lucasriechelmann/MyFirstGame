@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using MyFirstGame.Engine.Input;
+using MyFirstGame.Engine.Objects;
 using MyFirstGame.Engine.States;
 using MyFirstGame.Objects;
 using System;
@@ -17,18 +18,30 @@ public class GameplayState : BaseGameState
     private const string PlayerFighterSeagull = "Seagull";
     private const string BackgroundTexture = "png\\Barren";
     private const string BulletTexture = "png\\bullet";
+    private const string ExhaustTexture = "png\\Cloud001";
+    private const string MissileTexture = "png\\Missile05";
     private PlayerSprite _playerSprite;
+    private Texture2D _missileTexture;
+    private Texture2D _exhaustTexture;
     private Texture2D _bulletTexture;
-    private bool _isShooting;
-    private TimeSpan _lastShotAt;
+    private bool _isShootingBullets;
+    private bool _isShootingMissile;
+    private TimeSpan _lastBulletShotAt;
+    private TimeSpan _lastMissileShotAt;
 
     private List<BulletSprite> _bulletList;
+    private List<MissileSprite> _missileList;
     public override void LoadContent()
     {
-        _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
+        _missileTexture = LoadTexture(MissileTexture);
+        _exhaustTexture = LoadTexture(ExhaustTexture);
         _bulletTexture = LoadTexture(BulletTexture);
+        
         _bulletList = new List<BulletSprite>();
+        _missileList = new List<MissileSprite>();
 
+        _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
+        
         AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture)));
         AddGameObject(_playerSprite);
 
@@ -93,40 +106,66 @@ public class GameplayState : BaseGameState
             bullet.MoveUp();
         }
 
-        // can't shoot more than every 0.2 seconds
-        if (_lastShotAt != null && gameTime.TotalGameTime - _lastShotAt > TimeSpan.FromSeconds(0.2))
+        foreach (var missile in _missileList)
         {
-            _isShooting = false;
+            missile.Update(gameTime);
         }
 
-        // get rid of bullets that have gone out of view
-        var newBulletList = new List<BulletSprite>();
-        foreach (var bullet in _bulletList)
+        // can't shoot more than every 0.2 seconds
+        if (_lastBulletShotAt != null && gameTime.TotalGameTime - _lastBulletShotAt > TimeSpan.FromSeconds(0.2))
         {
-            var bulletStillOnScreen = bullet.Position.Y > -30;
+            _isShootingBullets = false;
+        }
 
-            if (bulletStillOnScreen)
+        // can't shoot missiles more than every 1 second
+        if (_lastMissileShotAt != null && gameTime.TotalGameTime - _lastMissileShotAt > TimeSpan.FromSeconds(1.0))
+        {
+            _isShootingMissile = false;
+        }
+
+        // get rid of bullets and missiles that have gone out of view
+        _bulletList = CleanObjects(_bulletList);
+        _missileList = CleanObjects(_missileList);
+    }
+
+    private List<T> CleanObjects<T>(List<T> objectList) where T : BaseGameObject
+    {
+        List<T> listOfItemsToKeep = new List<T>();
+        foreach (T item in objectList)
+        {
+            var stillOnScreen = item.Position.Y > -50;
+
+            if (stillOnScreen)
             {
-                newBulletList.Add(bullet);
+                listOfItemsToKeep.Add(item);
             }
             else
             {
-                RemoveGameObject(bullet);
+                RemoveGameObject(item);
             }
         }
 
-        _bulletList = newBulletList;
+        return listOfItemsToKeep;
     }
 
     private void Shoot(GameTime gameTime)
     {
-        if (!_isShooting)
+        if (!_isShootingBullets)
         {
             CreateBullets();
-            _isShooting = true;
-            _lastShotAt = gameTime.TotalGameTime;
+            _isShootingBullets = true;
+            _lastBulletShotAt = gameTime.TotalGameTime;
 
             NotifyEvent(new GameplayEvents.PlayerShoots());
+        }
+
+        if (!_isShootingMissile)
+        {
+            CreateMissile();
+            _isShootingMissile = true;
+            _lastMissileShotAt = gameTime.TotalGameTime;
+
+            NotifyEvent(new GameplayEvents.PlayerShootsMissile());
         }
     }
 
@@ -147,6 +186,14 @@ public class GameplayState : BaseGameState
 
         AddGameObject(bulletSpriteLeft);
         AddGameObject(bulletSpriteRight);
+    }
+    private void CreateMissile()
+    {
+        var missileSprite = new MissileSprite(_missileTexture, _exhaustTexture);
+        missileSprite.Position = new Vector2(_playerSprite.Position.X + 33, _playerSprite.Position.Y - 25);
+
+        _missileList.Add(missileSprite);
+        AddGameObject(missileSprite);
     }
 
     private void KeepPlayerInBounds()

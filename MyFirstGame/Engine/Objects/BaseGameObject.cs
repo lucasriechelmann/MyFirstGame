@@ -12,7 +12,7 @@ public abstract class BaseGameObject
     public int zIndex { get; set; }
     public int Width => _texture.Width;
     public int Height => _texture.Height;
-    public Vector2 Position
+    public virtual Vector2 Position
     {
         get { return _position; }
         set { _position = value; }
