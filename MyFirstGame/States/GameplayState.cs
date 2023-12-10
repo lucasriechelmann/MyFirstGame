@@ -31,7 +31,7 @@ public class GameplayState : BaseGameState
         _bulletList = new List<BulletSprite>();
 
         AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture)));
-        AddGameObject(new PlayerSprite(LoadTexture(PlayerFighter)));
+        AddGameObject(_playerSprite);
 
         // position the player in the middle of the screen, at the bottom, leaving a slight gap at the bottom
         var playerXPos = _viewportWidth / 2 - _playerSprite.Width / 2;
