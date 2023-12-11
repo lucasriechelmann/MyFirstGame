@@ -4,22 +4,35 @@ using System.Collections.Generic;
 
 namespace MyFirstGame.States.Dev;
 
-public class DevInputMapper : BaseInputMapper
+public class DevInputMapper : BaseInputMapper;
 {
-    public override IEnumerable<BaseInputCommand> GetKeyboardState(KeyboardState state)
+    public class DevInputMapper : BaseInputMapper
     {
-        var commands = new List<DevInputCommand>();
-
-        if (state.IsKeyDown(Keys.Escape))
+        public override IEnumerable<BaseInputCommand> GetKeyboardState(KeyboardState state)
         {
-            commands.Add(new DevInputCommand.DevQuit());
-        }
+            var commands = new List<DevInputCommand>();
 
-        if (state.IsKeyDown(Keys.Space))
-        {
-            commands.Add(new DevInputCommand.DevShoot());
-        }
+            if (state.IsKeyDown(Keys.Escape))
+            {
+                commands.Add(new DevInputCommand.DevQuit());
+            }
 
-        return commands;
+            if (state.IsKeyDown(Keys.Z))
+            {
+                commands.Add(new DevInputCommand.DevBulletSparks());
+            }
+
+            if (state.IsKeyDown(Keys.X))
+            {
+                commands.Add(new DevInputCommand.DevMissileExplode());
+            }
+
+            if (state.IsKeyDown(Keys.C))
+            {
+                commands.Add(new DevInputCommand.DevExplode());
+            }
+
+            return commands;
+        }
     }
 }

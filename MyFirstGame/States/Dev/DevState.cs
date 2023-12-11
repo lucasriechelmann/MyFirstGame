@@ -4,32 +4,26 @@ using MyFirstGame.Engine.States;
 using MyFirstGame.Objects;
 using MyFirstGame.Particles;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyFirstGame.States.Dev;
 
+/// <summary>
+/// Used to test out new things, like particle engines and shooting missiles
+/// </summary>
 public class DevState : BaseGameState
 {
-    private const string ExhaustTexture = "Cloud";
-    private const string MissileTexture = "Missile";
-    private const string PlayerFighter = "fighter";
+    private const string CloudTexture = "png\\explosion";
+    private const string ChopperTexture = "png\\chopper-44x99";
 
-    private ExhaustEmitter _exhaustEmitter;
-    private MissileSprite _missile;
-    private PlayerSprite _player;
+    private ChopperSprite _chopper;
+    private ExplosionEmitter _explosion;
+    private TimeSpan _explodeAt;
 
     public override void LoadContent()
     {
-        var exhaustPosition = new Vector2(_viewPortWidth / 2, _viewPortHeight / 2);
-        _exhaustEmitter = new ExhaustEmitter(LoadTexture(ExhaustTexture), exhaustPosition);
-        AddGameObject(_exhaustEmitter);
-
-        _player = new PlayerSprite(LoadTexture(PlayerFighter));
-        _player.Position = new Vector2(500, 500);
-        AddGameObject(_player);
+        _chopper = new ChopperSprite(LoadTexture(ChopperTexture), new System.Collections.Generic.List<(int, Vector2)>());
+        _chopper.Position = new Vector2(300, 100);
+        AddGameObject(_chopper);
     }
 
     public override void HandleInput(GameTime gameTime)
@@ -40,34 +34,36 @@ public class DevState : BaseGameState
             {
                 NotifyEvent(new BaseGameStateEvent.GameQuit());
             }
-
-            if (cmd is DevInputCommand.DevShoot)
-            {
-                _missile = new MissileSprite(LoadTexture(MissileTexture), LoadTexture(ExhaustTexture));
-                _missile.Position = new Vector2(_player.Position.X, _player.Position.Y - 25);
-                AddGameObject(_missile);
-            }
         });
     }
 
     public override void UpdateGameState(GameTime gameTime)
     {
-        _exhaustEmitter.Position = new Vector2(_exhaustEmitter.Position.X, _exhaustEmitter.Position.Y - 3f);
-        _exhaustEmitter.Update(gameTime);
-
-        if (_missile != null)
+        if (_explosion == null && gameTime.TotalGameTime > TimeSpan.FromSeconds(2))
         {
-            _missile.Update(gameTime);
-
-            if (_missile.Position.Y < -100)
-            {
-                RemoveGameObject(_missile);
-            }
+            _explosion = new ExplosionEmitter(LoadTexture(CloudTexture), new Vector2(260, 60));
+            AddGameObject(_explosion);
+            _explodeAt = gameTime.TotalGameTime;
         }
 
-        if (_exhaustEmitter.Position.Y < -200)
+        if (_explosion != null && gameTime.TotalGameTime - _explodeAt > TimeSpan.FromSeconds(1.2))
         {
-            RemoveGameObject(_exhaustEmitter);
+            _explosion.Deactivate();
+        }
+
+        if (_explosion != null && gameTime.TotalGameTime - _explodeAt > TimeSpan.FromSeconds(0.5))
+        {
+            RemoveGameObject(_chopper);
+        }
+
+        if (_explosion != null && gameTime.TotalGameTime > TimeSpan.FromSeconds(10))
+        {
+            RemoveGameObject(_explosion);
+        }
+
+        if (_explosion != null)
+        {
+            _explosion.Update(gameTime);
         }
     }
 
