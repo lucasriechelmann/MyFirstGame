@@ -61,6 +61,18 @@
 /processorParam:TextureFormat=Color
 /build:png/bullet.png
 
+#begin png/chopper-44x99.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:png/chopper-44x99.png
+
 #begin png/Cloud001.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -84,6 +96,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:png/Empty.png
+
+#begin png/explosion.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:png/explosion.png
 
 #begin png/Fighter.png
 /importer:TextureImporter

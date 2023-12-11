@@ -5,7 +5,7 @@ using MyFirstGame.Particles;
 
 namespace MyFirstGame.Objects;
 
-public class MissileSprite : BaseGameObject
+public class MissileSprite : BaseGameObject, IGameObjectWithDamage
 {
     private const float StartSpeed = 0.5f;
     private const float Acceleration = 0.15f;
@@ -23,19 +23,42 @@ public class MissileSprite : BaseGameObject
     {
         set
         {
-            _position = value;
-            _exhaustEmitter.Position = new Vector2(_position.X + 18, _position.Y + _missileHeight - 10);
+            var emitterOffsetX = 18;
+            var emitterOffsetY = -10;
+
+            var emitterPosX = _position.X + emitterOffsetX;
+            var emitterPosY = _position.Y + _missileHeight + emitterOffsetY;
+
+            _exhaustEmitter.Position = new Vector2(emitterPosX, emitterPosY);
+            base.Position = value;
         }
     }
 
-    public MissileSprite(Texture2D missileTexture, Texture2D exhaustTexture)
+    public int Damage => 25;
+
+    public MissileSprite(Texture2D missleTexture, Texture2D exhaustTexture)
     {
-        _texture = missileTexture;
+        _texture = missleTexture;
         _exhaustEmitter = new ExhaustEmitter(exhaustTexture, _position);
 
         var ratio = (float)_texture.Height / (float)_texture.Width;
         _missileWidth = 50;
         _missileHeight = (int)(_missileWidth * ratio);
+
+        // note that the missile is scaled down! so it's bounding box must be scaled down as well
+        var bbRatio = (float)_missileWidth / _texture.Width;
+
+        var bbOriginalPositionX = 352;
+        var bbOriginalPositionY = 7;
+        var bbOriginalWidth = 150;
+        var bbOriginalHeight = 500;
+
+        var bbPositionX = bbOriginalPositionX * bbRatio;
+        var bbPositionY = bbOriginalPositionY * bbRatio;
+        var bbWidth = bbOriginalWidth * bbRatio;
+        var bbHeight = bbOriginalHeight * bbRatio;
+
+        AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(bbPositionX, bbPositionY), bbWidth, bbHeight));
     }
 
     public void Update(GameTime gameTime)
