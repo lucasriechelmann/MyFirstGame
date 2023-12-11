@@ -128,6 +128,9 @@ public class GameplayState : BaseGameState
             missile.Update(gameTime);
         }
 
+        if(_enemyList.Count == 0)
+            _chopperGenerator.GenerateChoppers();
+
         foreach (var chopper in _enemyList)
         {
             chopper.Update();
@@ -249,7 +252,7 @@ public class GameplayState : BaseGameState
         List<T> listOfItemsToKeep = new List<T>();
         foreach (T item in objectList)
         {
-            var offScreen = item.Position.Y < -50;
+            var offScreen = item.Position.Y < -50 || _viewPortWidth < item.Position.Y;
 
             if (offScreen || item.Destroyed)
             {
