@@ -5,7 +5,7 @@ namespace MyFirstGame.States.Gameplay;
 
 public class GameplayEvents : BaseGameStateEvent
 {
-    public class PlayerShoots : GameplayEvents { }
+    public class PlayerShootsBullets : GameplayEvents { }
     public class PlayerShootsMissile : GameplayEvents { }
     public class PlayerDies : GameplayEvents { }
 

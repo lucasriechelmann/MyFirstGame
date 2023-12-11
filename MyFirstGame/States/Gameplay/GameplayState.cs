@@ -16,9 +16,9 @@ namespace MyFirstGame.States.Gameplay;
 
 public class GameplayState : BaseGameState
 {
-    private const string PlayerFighter = "png\\fighter";
-    private const string PlayerFighterSeagull = "Seagull";
     private const string BackgroundTexture = "png\\Barren";
+    private const string PlayerFighter = "png\\fighter";
+    
     private const string BulletTexture = "png\\bullet";
     private const string ExhaustTexture = "png\\Cloud001";
     private const string MissileTexture = "png\\Missile05";
@@ -28,22 +28,22 @@ public class GameplayState : BaseGameState
     private const int MaxExplosionAge = 600; // 10 seconds
     private const int ExplosionActiveLength = 75; // emit particles for 1.2 seconds and let them fade out for 10 seconds
 
-    private PlayerSprite _playerSprite;
-    private bool _playerDead;
-
     private Texture2D _missileTexture;
     private Texture2D _exhaustTexture;
     private Texture2D _bulletTexture;
     private Texture2D _explosionTexture;
     private Texture2D _chopperTexture;
 
+    private PlayerSprite _playerSprite;
+    private bool _playerDead;
+
     private bool _isShootingBullets;
     private bool _isShootingMissile;
     private TimeSpan _lastBulletShotAt;
     private TimeSpan _lastMissileShotAt;
 
-    private List<BulletSprite> _bulletList;
-    private List<MissileSprite> _missileList;
+    private List<BulletSprite> _bulletList = new List<BulletSprite>();
+    private List<MissileSprite> _missileList = new List<MissileSprite>();
     private List<ExplosionEmitter> _explosionList = new List<ExplosionEmitter>();
     private List<ChopperSprite> _enemyList = new List<ChopperSprite>();
     private ChopperGenerator _chopperGenerator;
@@ -56,22 +56,15 @@ public class GameplayState : BaseGameState
         _explosionTexture = LoadTexture(ExplosionTexture);
         _chopperTexture = LoadTexture(ChopperTexture);
 
-        _bulletList = new List<BulletSprite>();
-        _missileList = new List<MissileSprite>();
-
         _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
         
         AddGameObject(new TerrainBackground(LoadTexture(BackgroundTexture)));
-        AddGameObject(_playerSprite);
-
-        // position the player in the middle of the screen, at the bottom, leaving a slight gap at the bottom
-        var playerXPos = _viewPortWidth / 2 - _playerSprite.Width / 2;
-        var playerYPos = _viewPortHeight - _playerSprite.Height - 30;
-        _playerSprite.Position = new Vector2(playerXPos, playerYPos);
 
         // load sound effects and register in the sound manager
         var bulletSound = LoadSound("sound\\bullet");
-        _soundManager.RegisterSound(new GameplayEvents.PlayerShoots(), bulletSound);
+        var missileSound = LoadSound("sound\\missile");
+        _soundManager.RegisterSound(new GameplayEvents.PlayerShootsBullets(), bulletSound);
+        _soundManager.RegisterSound(new GameplayEvents.PlayerShootsMissile(), missileSound, 0.4f, -0.2f, 0.0f);
 
         // load soundtracks into sound manager
         var track1 = LoadSound("music\\FutureAmbient_1").CreateInstance();
@@ -90,36 +83,36 @@ public class GameplayState : BaseGameState
                 NotifyEvent(new BaseGameStateEvent.GameQuit());
             }
 
-            if (!_playerDead)
+            if (_playerDead)
+                return;
+
+            if (cmd is GameplayInputCommand.PlayerMoveUp)
             {
-                if (cmd is GameplayInputCommand.PlayerMoveUp)
-                {
-                    _playerSprite.MoveUp();
-                    KeepPlayerInBounds();
-                }
+                _playerSprite.MoveUp();
+                KeepPlayerInBounds();
+            }
 
-                if (cmd is GameplayInputCommand.PlayerMoveDown)
-                {
-                    _playerSprite.MoveDown();
-                    KeepPlayerInBounds();
-                }
+            if (cmd is GameplayInputCommand.PlayerMoveDown)
+            {
+                _playerSprite.MoveDown();
+                KeepPlayerInBounds();
+            }
 
-                if (cmd is GameplayInputCommand.PlayerMoveLeft)
-                {
-                    _playerSprite.MoveLeft();
-                    KeepPlayerInBounds();
-                }
+            if (cmd is GameplayInputCommand.PlayerMoveLeft)
+            {
+                _playerSprite.MoveLeft();
+                KeepPlayerInBounds();
+            }
 
-                if (cmd is GameplayInputCommand.PlayerMoveRight)
-                {
-                    _playerSprite.MoveRight();
-                    KeepPlayerInBounds();
-                }
+            if (cmd is GameplayInputCommand.PlayerMoveRight)
+            {
+                _playerSprite.MoveRight();
+                KeepPlayerInBounds();
+            }
 
-                if (cmd is GameplayInputCommand.PlayerShoots)
-                {
-                    Shoot(gameTime);
-                }
+            if (cmd is GameplayInputCommand.PlayerShoots)
+            {
+                Shoot(gameTime);
             }
         });
     }
@@ -153,15 +146,11 @@ public class GameplayState : BaseGameState
     {
         // can't shoot bullets more than every 0.2 second
         if (_lastBulletShotAt != null && gameTime.TotalGameTime - _lastBulletShotAt > TimeSpan.FromSeconds(0.2))
-        {
             _isShootingBullets = false;
-        }
 
         // can't shoot missiles more than every 1 second
         if (_lastMissileShotAt != null && gameTime.TotalGameTime - _lastMissileShotAt > TimeSpan.FromSeconds(1.0))
-        {
             _isShootingMissile = false;
-        }
     }
     private void DetectCollisions()
     {
@@ -255,6 +244,25 @@ public class GameplayState : BaseGameState
         _enemyList.Add(chopper);
         AddGameObject(chopper);
     }
+    private List<T> CleanObjects<T>(List<T> objectList) where T : BaseGameObject
+    {
+        List<T> listOfItemsToKeep = new List<T>();
+        foreach (T item in objectList)
+        {
+            var offScreen = item.Position.Y < -50;
+
+            if (offScreen || item.Destroyed)
+            {
+                RemoveGameObject(item);
+            }
+            else
+            {
+                listOfItemsToKeep.Add(item);
+            }
+        }
+
+        return listOfItemsToKeep;
+    }
     private void _chopperSprite_OnObjectChanged(object sender, BaseGameStateEvent e)
     {
         var chopper = (ChopperSprite)sender;
@@ -294,25 +302,7 @@ public class GameplayState : BaseGameState
             }
         }
     }
-    private List<T> CleanObjects<T>(List<T> objectList) where T : BaseGameObject
-    {
-        List<T> listOfItemsToKeep = new List<T>();
-        foreach (T item in objectList)
-        {
-            var stillOnScreen = item.Position.Y > -50;
-
-            if (stillOnScreen)
-            {
-                listOfItemsToKeep.Add(item);
-            }
-            else
-            {
-                RemoveGameObject(item);
-            }
-        }
-
-        return listOfItemsToKeep;
-    }
+    
 
     private void Shoot(GameTime gameTime)
     {
@@ -322,7 +312,7 @@ public class GameplayState : BaseGameState
             _isShootingBullets = true;
             _lastBulletShotAt = gameTime.TotalGameTime;
 
-            NotifyEvent(new GameplayEvents.PlayerShoots());
+            NotifyEvent(new GameplayEvents.PlayerShootsBullets());
         }
 
         if (!_isShootingMissile)

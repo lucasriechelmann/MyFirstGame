@@ -2,7 +2,16 @@
 using System;
 
 namespace MyFirstGame.Engine.Objects;
-
+/// <summary>
+/// AABB stands for Aligned Axis Boundind Box
+///
+/// Detect collisions using brute force for all bouding boxes between passive objects and active objects. Collisions will
+/// not be detected between passive objects themselves, or between active objects themselves. So 2 passive objects will
+/// never collide.
+/// 
+/// Collisions detected will invoke a continuation function where the passive object *hits* an active object.
+/// Passive objects could be bullets, walls or other things that don't 
+/// </summary>
 public class AABBCollisionDetector<P, A>
         where P : BaseGameObject
         where A : BaseGameObject

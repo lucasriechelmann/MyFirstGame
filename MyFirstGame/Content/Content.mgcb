@@ -157,3 +157,9 @@
 /processorParam:Quality=Best
 /build:sound/empty.wav
 
+#begin sound/missile.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/missile.wav
+
