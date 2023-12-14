@@ -9,5 +9,6 @@ public class GameplayInputCommand : BaseInputCommand
     public class PlayerMoveDown : GameplayInputCommand { }
     public class PlayerMoveLeft : GameplayInputCommand { }
     public class PlayerMoveRight : GameplayInputCommand { }
+    public class PlayerStopsMoving : GameplayInputCommand { }
     public class PlayerShoots : GameplayInputCommand { }
 }

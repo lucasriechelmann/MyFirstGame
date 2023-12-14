@@ -16,8 +16,8 @@ public abstract class BaseGameObject
     public event EventHandler<BaseGameStateEvent> OnObjectChanged;
 
     public bool Destroyed { get; private set; }
-    public int Width => _texture.Width;
-    public int Height => _texture.Height;
+    public virtual int Width => _texture.Width;
+    public virtual int Height => _texture.Height;
     public virtual Vector2 Position
     {
         get { return _position; }

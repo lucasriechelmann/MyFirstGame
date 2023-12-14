@@ -43,6 +43,7 @@ public abstract class BaseGameState
     }
     protected Texture2D LoadTexture(string textureName) =>
         _contentManager.Load<Texture2D>(textureName) ?? _contentManager.Load<Texture2D>(FallbackTexture);
+    protected SpriteFont LoadFont(string fontName) => _contentManager.Load<SpriteFont>(fontName);
     protected SoundEffect LoadSound(string soundName) => 
         _contentManager.Load<SoundEffect>(soundName) ?? _contentManager.Load<SoundEffect>(FallbackSong);
 
@@ -61,7 +62,7 @@ public abstract class BaseGameState
     protected void SwitchState(BaseGameState gameState) => OnStateSwitched?.Invoke(this, gameState);
     protected void AddGameObject(BaseGameObject gameObject) => _gameObjects.Add(gameObject);
     protected void RemoveGameObject(BaseGameObject gameObject) => _gameObjects.Remove(gameObject);
-    public void Render(SpriteBatch spriteBatch)
+    public virtual void Render(SpriteBatch spriteBatch)
     {
         foreach (var gameObject in _gameObjects.OrderBy(x => x.zIndex))
         {

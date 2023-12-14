@@ -40,6 +40,11 @@ public class GameplayInputMapper : BaseInputMapper
             commands.Add(new GameplayInputCommand.PlayerShoots());
         }
 
+        if(!commands.Contains(new GameplayInputCommand.PlayerMoveUp()) && !commands.Contains(new GameplayInputCommand.PlayerMoveDown()))
+        {
+            commands.Add(new GameplayInputCommand.PlayerStopsMoving());
+        }
+
         return commands;
     }
 }
