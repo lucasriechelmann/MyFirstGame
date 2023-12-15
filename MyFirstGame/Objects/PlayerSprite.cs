@@ -7,7 +7,8 @@ namespace MyFirstGame.Objects;
 
 public class PlayerSprite : BaseGameObject
 {
-    private const float PlayerSpeed = 10.0f;
+    private const float PlayerHorizontalSpeed = 10.0f;
+    private const float PlayerVerticalSpeed = 8.0f;
 
     private const int BB1PosX = 29;
     private const int BB1PosY = 2;
@@ -23,7 +24,6 @@ public class PlayerSprite : BaseGameObject
     private Animation _turnRightAnimation = new Animation(false);
     private Animation _leftToCenterAnimation = new Animation(false);
     private Animation _rightToCenterAnimation = new Animation(false);
-
     private const int AnimationSpeed = 3;
     private const int AnimationCellWidth = 116;
     private const int AnimationCellHeight = 152;
@@ -37,11 +37,19 @@ public class PlayerSprite : BaseGameObject
     public override int Height => AnimationCellHeight;
     public override int Width => AnimationCellWidth;
 
+    public Vector2 CenterPosition
+    {
+        get
+        {
+            return Vector2.Add(_position, new Vector2(AnimationCellWidth / 2, AnimationCellHeight / 2));
+        }
+    }
+
     public PlayerSprite(Texture2D texture)
     {
         _texture = texture;
-        AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(BB1PosX, BB1PosY), BB1Width, BB1Height));
-        AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(BB2PosX, BB2PosY), BB2Width, BB2Height));
+        AddBoundingBox(new Engine.Objects.Colisions.BoundingBox(new Vector2(BB1PosX, BB1PosY), BB1Width, BB1Height));
+        AddBoundingBox(new Engine.Objects.Colisions.BoundingBox(new Vector2(BB2PosX, BB2PosY), BB2Width, BB2Height));
 
         _idleRectangle = new Rectangle(348, 0, AnimationCellWidth, AnimationCellHeight);
         _turnLeftAnimation.AddFrame(new Rectangle(348, 0, AnimationCellWidth, AnimationCellHeight), AnimationSpeed);
@@ -80,7 +88,7 @@ public class PlayerSprite : BaseGameObject
         _currentAnimation = _turnLeftAnimation;
         _leftToCenterAnimation.Reset();
         _turnRightAnimation.Reset();
-        Position = new Vector2(Position.X - PlayerSpeed, Position.Y);
+        Position = new Vector2(Position.X - PlayerHorizontalSpeed, Position.Y);
     }
 
     public void MoveRight()
@@ -90,15 +98,17 @@ public class PlayerSprite : BaseGameObject
         _currentAnimation = _turnRightAnimation;
         _rightToCenterAnimation.Reset();
         _turnLeftAnimation.Reset();
-        Position = new Vector2(Position.X + PlayerSpeed, Position.Y);
+        Position = new Vector2(Position.X + PlayerHorizontalSpeed, Position.Y);
     }
+
     public void MoveUp()
     {
-        Position = new Vector2(Position.X, Position.Y - PlayerSpeed);
+        Position = new Vector2(Position.X, Position.Y - PlayerVerticalSpeed);
     }
+
     public void MoveDown()
     {
-        Position = new Vector2(Position.X, Position.Y + PlayerSpeed);
+        Position = new Vector2(Position.X, Position.Y + PlayerVerticalSpeed);
     }
 
     public void Update(GameTime gametime)

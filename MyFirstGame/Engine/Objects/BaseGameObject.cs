@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MyFirstGame.Engine.Objects.Colisions;
 using MyFirstGame.Engine.States;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,9 @@ public abstract class BaseGameObject
     protected Texture2D _texture;
     protected Texture2D _boundingBoxTexture;
     protected Vector2 _position = Vector2.One;
-    protected List<BoundingBox> _boundingBoxes = new List<BoundingBox>();
+    protected float _angle;
+    protected Vector2 _direction;
+    protected List<Colisions.BoundingBox> _boundingBoxes = new List<Colisions.BoundingBox>();
     public int zIndex { get; set; }
     public event EventHandler<BaseGameStateEvent> OnObjectChanged;
 
@@ -33,14 +36,23 @@ public abstract class BaseGameObject
             }
         }
     }
-    public List<BoundingBox> BoundingBoxes => _boundingBoxes;
+    public List<Colisions.BoundingBox> BoundingBoxes => _boundingBoxes;
     public virtual void OnNotify(BaseGameStateEvent gameEvent)
     {
 
     }
-    public virtual void Render(SpriteBatch spriteBatch) => spriteBatch.Draw(_texture, _position, Color.White);
+    public virtual void Render(SpriteBatch spriteBatch)
+    {
+        if(Destroyed)
+            return;
+
+        spriteBatch.Draw(_texture, _position, Color.White);
+    }
     public void RenderBoundingBoxes(SpriteBatch spriteBatch)
     {
+        if (Destroyed)
+            return;
+
         if (_boundingBoxTexture == null)
         {
             CreateBoundingBoxTexture(spriteBatch.GraphicsDevice);
@@ -54,7 +66,14 @@ public abstract class BaseGameObject
     public void Destroy() => Destroyed = true;
     public void SendEvent(BaseGameStateEvent e) => OnObjectChanged?.Invoke(this, e);
 
-    public void AddBoundingBox(BoundingBox bb) => _boundingBoxes.Add(bb);
+    public void AddBoundingBox(Colisions.BoundingBox bb) => _boundingBoxes.Add(bb);
+    protected Vector2 CalculateDirection(float angleOffset = 0.0f)
+    {
+        _direction = new Vector2((float)Math.Cos(_angle - angleOffset), (float)Math.Sin(_angle - angleOffset));
+        _direction.Normalize();
+
+        return _direction;
+    }
 
     private void CreateBoundingBoxTexture(GraphicsDevice graphicsDevice)
     {

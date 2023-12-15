@@ -1,4 +1,5 @@
-﻿using MyFirstGame.Engine.Objects;
+﻿using Microsoft.Xna.Framework;
+using MyFirstGame.Engine.Objects;
 using MyFirstGame.Engine.States;
 
 namespace MyFirstGame.States.Gameplay;
@@ -9,21 +10,37 @@ public class GameplayEvents : BaseGameStateEvent
     public class PlayerShootsMissile : GameplayEvents { }
     public class PlayerDies : GameplayEvents { }
 
-    public class ChopperHitBy : GameplayEvents
+    public class ObjectHitBy : GameplayEvents
     {
         public IGameObjectWithDamage HitBy { get; private set; }
-        public ChopperHitBy(IGameObjectWithDamage gameObject)
+        public ObjectHitBy(IGameObjectWithDamage gameObject)
         {
             HitBy = gameObject;
         }
     }
 
-    public class EnemyLostLife : GameplayEvents
+    public class ObjectLostLife : GameplayEvents
     {
         public int CurrentLife { get; private set; }
-        public EnemyLostLife(int currentLife)
+        public ObjectLostLife(int currentLife)
         {
             CurrentLife = currentLife;
+        }
+    }
+
+    public class TurretShoots : GameplayEvents
+    {
+        public Vector2 Direction { get; private set; }
+        public Vector2 Bullet1Position { get; private set; }
+        public Vector2 Bullet2Position { get; private set; }
+        public float Angle { get; private set; }
+
+        public TurretShoots(Vector2 bullet1Pos, Vector2 bullet2Pos, float angle, Vector2 direction)
+        {
+            Direction = direction;
+            Bullet1Position = bullet1Pos;
+            Bullet2Position = bullet2Pos;
+            Angle = angle;
         }
     }
 }

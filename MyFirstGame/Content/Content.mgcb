@@ -75,6 +75,18 @@
 /processorParam:TextureFormat=Color
 /build:png/Barren.png
 
+#begin png/Bullet_MG.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:png/Bullet_MG.png
+
 #begin png/bullet.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -147,6 +159,18 @@
 /processorParam:TextureFormat=Color
 /build:png/Fighter.png
 
+#begin png/MG2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:png/MG2.png
+
 #begin png/Missile05.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -170,6 +194,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:png/splash.png
+
+#begin png/Tower.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:png/Tower.png
 
 #begin sound/bullet.wav
 /importer:WavImporter

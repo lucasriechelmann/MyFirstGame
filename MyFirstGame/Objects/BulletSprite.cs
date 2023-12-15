@@ -18,7 +18,7 @@ public class BulletSprite : BaseGameObject, IGameObjectWithDamage
     public BulletSprite(Texture2D texture)
     {
         _texture = texture;
-        AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
+        AddBoundingBox(new Engine.Objects.Colisions.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
     }
 
     public void MoveUp()

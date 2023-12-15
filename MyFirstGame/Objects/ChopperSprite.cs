@@ -1,13 +1,9 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MyFirstGame.Engine.Objects;
 using MyFirstGame.Engine.States;
 using MyFirstGame.States.Gameplay;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyFirstGame.Objects;
 
@@ -45,7 +41,7 @@ public class ChopperSprite : BaseGameObject
     private int _life = 40;
 
     // chopper will flash red when hit
-    private int _hitAt = 0;
+    private int _hitAt = 100;
 
     // bounding box. Note that since this chopper is rotated 180 degrees around its 0,0 origin, 
     // this causes the bounding box to be further to the left and higher than the original texture coordinates
@@ -60,7 +56,7 @@ public class ChopperSprite : BaseGameObject
     {
         _texture = texture;
         _path = path;
-        AddBoundingBox(new Engine.Objects.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
+        AddBoundingBox(new Engine.Objects.Colisions.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
     }
 
     public void Update()
@@ -102,9 +98,9 @@ public class ChopperSprite : BaseGameObject
     {
         switch (gameEvent)
         {
-            case GameplayEvents.ChopperHitBy m:
+            case GameplayEvents.ObjectHitBy m:
                 JustHit(m.HitBy);
-                SendEvent(new GameplayEvents.EnemyLostLife(_life));
+                SendEvent(new GameplayEvents.ObjectLostLife(_life));
                 break;
         }
     }

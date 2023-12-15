@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace MyFirstGame.Engine.Objects;
+namespace MyFirstGame.Engine.Objects.Colisions;
 
 public class BoundingBox
 {
