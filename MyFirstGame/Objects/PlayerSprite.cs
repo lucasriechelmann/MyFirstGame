@@ -37,13 +37,8 @@ public class PlayerSprite : BaseGameObject
     public override int Height => AnimationCellHeight;
     public override int Width => AnimationCellWidth;
 
-    public Vector2 CenterPosition
-    {
-        get
-        {
-            return Vector2.Add(_position, new Vector2(AnimationCellWidth / 2, AnimationCellHeight / 2));
-        }
-    }
+    public Vector2 CenterPosition =>
+        Vector2.Add(_position, new Vector2(AnimationCellWidth / 2, AnimationCellHeight / 2));
 
     public PlayerSprite(Texture2D texture)
     {
@@ -101,16 +96,8 @@ public class PlayerSprite : BaseGameObject
         Position = new Vector2(Position.X + PlayerHorizontalSpeed, Position.Y);
     }
 
-    public void MoveUp()
-    {
-        Position = new Vector2(Position.X, Position.Y - PlayerVerticalSpeed);
-    }
-
-    public void MoveDown()
-    {
-        Position = new Vector2(Position.X, Position.Y + PlayerVerticalSpeed);
-    }
-
+    public void MoveUp() => Position = new Vector2(Position.X, Position.Y - PlayerVerticalSpeed);
+    public void MoveDown() => Position = new Vector2(Position.X, Position.Y + PlayerVerticalSpeed);
     public void Update(GameTime gametime)
     {
         if (_currentAnimation != null)

@@ -21,8 +21,5 @@ public class BulletSprite : BaseGameObject, IGameObjectWithDamage
         AddBoundingBox(new Engine.Objects.Colisions.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
     }
 
-    public void MoveUp()
-    {
-        Position = new Vector2(Position.X, Position.Y - BULLET_SPEED);
-    }
+    public void MoveUp() => Position = new Vector2(Position.X, Position.Y - BULLET_SPEED);
 }

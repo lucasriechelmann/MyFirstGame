@@ -62,18 +62,12 @@ public class Emitter : BaseGameObject
             spriteBatch.Draw(_texture, particle.Position, sourceRectangle, Color.White * particle.Opacity, 0.0f, new Vector2(0, 0), particle.Scale, SpriteEffects.None, zIndex);
         }
     }
-    public void Deactivate()
-    {
-        _active = false;
-    }
-
+    public void Deactivate() => _active = false;
     private void EmitParticles()
     {
         // make sure we're not at max particles
         if (_activeParticles.Count >= _maxNbParticle)
-        {
             return;
-        }
 
         var maxAmountThatCanBeCreated = _maxNbParticle - _activeParticles.Count;
         var neededParticles = Math.Min(maxAmountThatCanBeCreated, _nbParticleEmittedPerUpdate);

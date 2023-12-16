@@ -51,14 +51,10 @@ public class SoundManager
         }
     }
 
-    public void RegisterSound(BaseGameStateEvent gameEvent, SoundEffect sound)
-    {
+    public void RegisterSound(BaseGameStateEvent gameEvent, SoundEffect sound) =>
         RegisterSound(gameEvent, sound, 1.0f, 0.0f, 0.0f);
-    }
 
     internal void RegisterSound(BaseGameStateEvent gameEvent, SoundEffect sound,
-                                float volume, float pitch, float pan)
-    {
+                                float volume, float pitch, float pan) =>
         _soundBank.Add(gameEvent.GetType(), new SoundBankItem(sound, new SoundAttributes(volume, pitch, pan)));
-    }
 }

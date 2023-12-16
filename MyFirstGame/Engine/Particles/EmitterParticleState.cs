@@ -29,31 +29,11 @@ public abstract class EmitterParticleState
     public abstract float Scale { get; }
     public abstract float ScaleDeviation { get; }
 
-    public int GenerateLifespan()
-    {
-        return _rnd.NextRandom(MinLifespan, MaxLifespan);
-    }
-
-    public float GenerateVelocity()
-    {
-        return GenerateFloat(Velocity, VelocityDeviation);
-    }
-
-    public float GenerateOpacity()
-    {
-        return GenerateFloat(Opacity, OpacityDeviation);
-    }
-
-    public float GenerateRotation()
-    {
-        return GenerateFloat(Rotation, RotationDeviation);
-    }
-
-    public float GenerateScale()
-    {
-        return GenerateFloat(Scale, ScaleDeviation);
-    }
-
+    public int GenerateLifespan() => _rnd.NextRandom(MinLifespan, MaxLifespan);
+    public float GenerateVelocity() => GenerateFloat(Velocity, VelocityDeviation);
+    public float GenerateOpacity() => GenerateFloat(Opacity, OpacityDeviation);
+    public float GenerateRotation() => GenerateFloat(Rotation, RotationDeviation);
+    public float GenerateScale() => GenerateFloat(Scale, ScaleDeviation);
     protected float GenerateFloat(float startN, float deviation)
     {
         var halfDeviation = deviation / 2.0f;

@@ -41,10 +41,7 @@ public abstract class BaseGameState
     public event EventHandler<BaseGameStateEvent> OnEventNotification;
     protected abstract void SetInputManager();
 
-    public void UnloadContent()
-    {
-        _contentManager.Unload();
-    }
+    public void UnloadContent() => _contentManager.Unload();
 
     public void Update(GameTime gameTime)
     {
@@ -52,21 +49,9 @@ public abstract class BaseGameState
         _soundManager.PlaySoundtrack();
     }
 
-    protected Texture2D LoadTexture(string textureName)
-    {
-        return _contentManager.Load<Texture2D>(textureName);
-    }
-
-    protected SpriteFont LoadFont(string fontName)
-    {
-        return _contentManager.Load<SpriteFont>(fontName);
-    }
-
-    protected SoundEffect LoadSound(string soundName)
-    {
-        return _contentManager.Load<SoundEffect>(soundName);
-    }
-
+    protected Texture2D LoadTexture(string textureName) => _contentManager.Load<Texture2D>(textureName);
+    protected SpriteFont LoadFont(string fontName) => _contentManager.Load<SpriteFont>(fontName);
+    protected SoundEffect LoadSound(string soundName) => _contentManager.Load<SoundEffect>(soundName);
     protected void NotifyEvent(BaseGameStateEvent gameEvent)
     {
         OnEventNotification?.Invoke(this, gameEvent);
@@ -79,21 +64,9 @@ public abstract class BaseGameState
 
         _soundManager.OnNotify(gameEvent);
     }
-
-    protected void SwitchState(BaseGameState gameState)
-    {
-        OnStateSwitched?.Invoke(this, gameState);
-    }
-
-    protected void AddGameObject(BaseGameObject gameObject)
-    {
-        _gameObjects.Add(gameObject);
-    }
-
-    protected void RemoveGameObject(BaseGameObject gameObject)
-    {
-        _gameObjects.Remove(gameObject);
-    }
+    protected void SwitchState(BaseGameState gameState) => OnStateSwitched?.Invoke(this, gameState);
+    protected void AddGameObject(BaseGameObject gameObject) => _gameObjects.Add(gameObject);
+    protected void RemoveGameObject(BaseGameObject gameObject) => _gameObjects.Remove(gameObject);
 
     public virtual void Render(SpriteBatch spriteBatch)
     {

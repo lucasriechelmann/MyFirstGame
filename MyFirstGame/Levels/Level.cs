@@ -29,18 +29,12 @@ public class Level
 
         _currentLevel = _levelReader.LoadLevel(_currentLevelNumber);
     }
-
     public void LoadNextLevel()
     {
         _currentLevelNumber++;
         _currentLevel = _levelReader.LoadLevel(_currentLevelNumber);
     }
-
-    public void Reset()
-    {
-        _currentLevelRow = 0;
-    }
-
+    public void Reset() => _currentLevelRow = 0;
     public void GenerateLevelEvents(GameTime gameTime)
     {
         // only generate events every 2 seconds

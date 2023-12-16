@@ -9,17 +9,13 @@ public class LivesText : BaseTextObject
 
     public int NbLives
     {
-        get
-        {
-            return _nbLives;
-        }
+        get => _nbLives;
         set
         {
             _nbLives = value;
             Text = $"Lives: {_nbLives}";
         }
     }
-
     public LivesText(SpriteFont font)
     {
         _font = font;

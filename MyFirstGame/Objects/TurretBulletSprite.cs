@@ -29,14 +29,16 @@ namespace MyFirstGame.Objects
             _angle = angle;
         }
 
-        public void Update()
-        {
-            Position = Position + _direction * BULLET_SPEED;
-        }
-
-        public override void Render(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(_texture, _position, _texture.Bounds, Color.White, _angle, _bulletCenterPosition, 1f, SpriteEffects.None, 0f);
-        }
+        public void Update() => Position = Position + _direction * BULLET_SPEED;
+        public override void Render(SpriteBatch spriteBatch) =>
+            spriteBatch.Draw(_texture, 
+                _position, 
+                _texture.Bounds, 
+                Color.White, 
+                _angle, 
+                _bulletCenterPosition, 
+                1f, 
+                SpriteEffects.None, 
+                0f);
     }
 }

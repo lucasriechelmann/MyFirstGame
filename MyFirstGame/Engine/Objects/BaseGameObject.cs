@@ -23,7 +23,7 @@ public abstract class BaseGameObject
     public virtual int Height => _texture.Height;
     public virtual Vector2 Position
     {
-        get { return _position; }
+        get => _position;
         set
         {
             var deltaX = value.X - _position.X;

@@ -6,19 +6,12 @@ namespace MyFirstGame.Engine.Particles.EmitterTypes;
 public class CircleEmitterType : IEmitterType
 {
     public float Radius { get; private set; }
-
     private RandomNumberGenerator _rnd = new RandomNumberGenerator();
-
     public CircleEmitterType(float radius)
     {
         Radius = radius;
     }
-
-    public Vector2 GetParticleDirection()
-    {
-        return new Vector2(0f, 0f);
-    }
-
+    public Vector2 GetParticleDirection() => Vector2.Zero;
     public Vector2 GetParticlePosition(Vector2 emitterPosition)
     {
         var newAngle = _rnd.NextRandom(0, 2 * MathHelper.Pi);

@@ -36,31 +36,13 @@ public class SegmentAABBCollisionDetector<A>
     private bool DetectCollision(A passiveObject, Segment segment)
     {
         foreach (var activeBB in passiveObject.BoundingBoxes)
-        {
-            if (DetectCollision(segment.P1, activeBB) || DetectCollision(segment.P2, activeBB))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+            return DetectCollision(segment.P1, activeBB) || DetectCollision(segment.P2, activeBB);
 
         return false;
     }
-    private bool DetectCollision(Vector2 p, BoundingBox bb)
-    {
-        if (p.X < bb.Position.X + bb.Width &&
-            p.X > bb.Position.X &&
-            p.Y < bb.Position.Y + bb.Height &&
-            p.Y > bb.Position.Y)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+    private bool DetectCollision(Vector2 p, BoundingBox bb) =>
+        p.X < bb.Position.X + bb.Width &&
+        p.X > bb.Position.X &&
+        p.Y < bb.Position.Y + bb.Height &&
+        p.Y > bb.Position.Y;
 }
