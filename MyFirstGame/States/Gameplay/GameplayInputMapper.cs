@@ -47,4 +47,45 @@ public class GameplayInputMapper : BaseInputMapper
 
         return commands;
     }
+    public override IEnumerable<BaseInputCommand> GetGamePadState(GamePadState state)
+    {
+        var commands = new List<GameplayInputCommand>();
+
+        if (state.Buttons.Back == ButtonState.Pressed)
+        {
+            commands.Add(new GameplayInputCommand.GameExit());
+        }
+
+        if (state.DPad.Up == ButtonState.Pressed)
+        {
+            commands.Add(new GameplayInputCommand.PlayerMoveUp());
+        }
+
+        if (state.DPad.Down == ButtonState.Pressed)
+        {
+            commands.Add(new GameplayInputCommand.PlayerMoveDown());
+        }
+
+        if (state.DPad.Left == ButtonState.Pressed)
+        {
+            commands.Add(new GameplayInputCommand.PlayerMoveLeft());
+        }
+
+        if (state.DPad.Right == ButtonState.Pressed)
+        {
+            commands.Add(new GameplayInputCommand.PlayerMoveRight());
+        }
+
+        if (state.Buttons.A == ButtonState.Pressed)
+        {
+            commands.Add(new GameplayInputCommand.PlayerShoots());
+        }
+
+        if (!commands.Contains(new GameplayInputCommand.PlayerMoveUp()) && !commands.Contains(new GameplayInputCommand.PlayerMoveDown()))
+        {
+            commands.Add(new GameplayInputCommand.PlayerStopsMoving());
+        }
+
+        return commands;
+    }
 }

@@ -17,4 +17,16 @@ public class SplashInputMapper : BaseInputMapper
 
         return commands;
     }
+
+    public override IEnumerable<BaseInputCommand> GetGamePadState(GamePadState state)
+    {
+        var commands = new List<SplashInputCommand>();
+
+        if (state.Buttons.A == ButtonState.Pressed)
+        {
+            commands.Add(new SplashInputCommand.GameSelect());
+        }
+
+        return commands;
+    }
 }
