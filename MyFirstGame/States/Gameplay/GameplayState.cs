@@ -560,28 +560,46 @@ public class GameplayState : BaseGameState
     private void CreateBullets()
     {
         var bulletSpriteLeft = new BulletSprite(_bulletTexture);
+        var bulletSpriteLeft2 = new BulletSprite(_bulletTexture);
         var bulletSpriteRight = new BulletSprite(_bulletTexture);
+        var bulletSpriteRight2 = new BulletSprite(_bulletTexture);
 
         var bulletY = _playerSprite.Position.Y + 30;
         var bulletLeftX = _playerSprite.Position.X + _playerSprite.Width / 2 - 40;
+        var bulletLeftX2 = bulletLeftX - 20;
         var bulletRightX = _playerSprite.Position.X + _playerSprite.Width / 2 + 10;
+        var bulletRightX2 = bulletRightX + 20;
 
         bulletSpriteLeft.Position = new Vector2(bulletLeftX, bulletY);
+        bulletSpriteLeft2.Position = new Vector2(bulletLeftX2, bulletY);
         bulletSpriteRight.Position = new Vector2(bulletRightX, bulletY);
+        bulletSpriteRight2.Position = new Vector2(bulletRightX2, bulletY);
 
         _bulletList.Add(bulletSpriteLeft);
         _bulletList.Add(bulletSpriteRight);
+        _bulletList.Add(bulletSpriteLeft2);
+        _bulletList.Add(bulletSpriteRight2);
 
         AddGameObject(bulletSpriteLeft);
         AddGameObject(bulletSpriteRight);
+        AddGameObject(bulletSpriteLeft2);
+        AddGameObject(bulletSpriteRight2);
     }
     private void CreateMissile()
     {
         var missileSprite = new MissileSprite(_missileTexture, _exhaustTexture);
         missileSprite.Position = new Vector2(_playerSprite.Position.X + 33, _playerSprite.Position.Y - 25);
+        var missileSprite2 = new MissileSprite(_missileTexture, _exhaustTexture);
+        var missileSprite3 = new MissileSprite(_missileTexture, _exhaustTexture);
+        missileSprite2.Position = new Vector2(_playerSprite.Position.X, _playerSprite.Position.Y - 25);
+        missileSprite3.Position = new Vector2(_playerSprite.Position.X + 66, _playerSprite.Position.Y - 25);
 
         _missileList.Add(missileSprite);
+        _missileList.Add(missileSprite2);
+        _missileList.Add(missileSprite3);
         AddGameObject(missileSprite);
+        AddGameObject(missileSprite2);
+        AddGameObject(missileSprite3);
     }
 
     private void KeepPlayerInBounds()

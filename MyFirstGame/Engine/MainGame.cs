@@ -44,6 +44,7 @@ namespace MyFirstGame.Engine
             _graphics.PreferredBackBufferWidth = _DesignedResolutionWidth;
             _graphics.PreferredBackBufferHeight = _DesignedResolutionHeight;
             _graphics.IsFullScreen = false;
+            _graphics.SynchronizeWithVerticalRetrace = false;
             _graphics.ApplyChanges();
             // TODO: Add your initialization logic here
             _renderTarget = new RenderTarget2D(_graphics.GraphicsDevice,
