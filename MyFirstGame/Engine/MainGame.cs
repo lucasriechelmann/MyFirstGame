@@ -45,6 +45,7 @@ namespace MyFirstGame.Engine
             _graphics.PreferredBackBufferWidth = _DesignedResolutionWidth;
             _graphics.PreferredBackBufferHeight = _DesignedResolutionHeight;
             _graphics.IsFullScreen = false;
+            //Used to force run at 60FPS
             _graphics.SynchronizeWithVerticalRetrace = false;
             _graphics.ApplyChanges();
             // TODO: Add your initialization logic here
