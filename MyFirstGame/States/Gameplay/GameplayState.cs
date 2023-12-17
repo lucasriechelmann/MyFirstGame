@@ -89,7 +89,7 @@ public class GameplayState : BaseGameState
         _playerSprite = new PlayerSprite(LoadTexture(PlayerFighter));
         _livesText = new LivesText(LoadFont(TextFont));
         _livesText.NbLives = StartingPlayerLives;
-        _livesText.Position = new Vector2(10.0f, 690.0f);
+        _livesText.Position = new Vector2(10.0f, _viewPortHeight - 30);
 
         _levelStartEndText = new GameOverText(LoadFont(GameOverFont));
 
@@ -109,7 +109,7 @@ public class GameplayState : BaseGameState
         var track2 = LoadSound("music\\FutureAmbient_2").CreateInstance();
         _soundManager.SetSoundtrack(track1, track2);
 
-        _chopperGenerator = new ChopperGenerator(_chopperTexture, AddChopper);
+        _chopperGenerator = new ChopperGenerator(_chopperTexture, _viewPortWidth, _viewPortHeight, AddChopper);
 
         var levelReader = new LevelReader(_viewPortWidth);
         _level = new Level(levelReader);

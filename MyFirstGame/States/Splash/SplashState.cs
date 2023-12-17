@@ -12,7 +12,7 @@ public class SplashState : BaseGameState
     {
         // TODO: Add Content Loading
 
-        AddGameObject(new SplashImage(LoadTexture("png\\splash")));
+        AddGameObject(new SplashImage(LoadTexture("png\\splash"), _viewPortWidth, _viewPortHeight));
     }
 
     public override void HandleInput(Microsoft.Xna.Framework.GameTime gameTime)

@@ -13,6 +13,8 @@ public class ChopperGenerator
     private Vector2 _downLeftVector = new Vector2(-1, 1);
     private Vector2 _rightVector = new Vector2(1, 0);
     private Vector2 _downRightVector = new Vector2(1, 1);
+    private int _viewPortWidth;
+    private int _viewPortHeight;
 
     private Texture2D _texture;
     private System.Timers.Timer _timer;
@@ -21,7 +23,7 @@ public class ChopperGenerator
     private int _choppersGenerated = 0;
     private bool _generating = false;
 
-    public ChopperGenerator(Texture2D texture, Action<ChopperSprite> handler)
+    public ChopperGenerator(Texture2D texture, int viewPortWidth, int viewPortHeight, Action<ChopperSprite> handler)
     {
         _texture = texture;
         _chopperHandler = handler;
@@ -31,6 +33,8 @@ public class ChopperGenerator
 
         _timer = new System.Timers.Timer(500);
         _timer.Elapsed += _timer_Elapsed;
+        _viewPortHeight = viewPortHeight;
+        _viewPortWidth = viewPortWidth;
     }
 
     public void GenerateChoppers(int nbChoppers)
@@ -75,7 +79,7 @@ public class ChopperGenerator
                 };
 
             var chopper = new ChopperSprite(_texture, path);
-            chopper.Position = new Vector2(1500, 100);
+            chopper.Position = new Vector2(_viewPortWidth + 200, 100);
             _chopperHandler(chopper);
         }
 
