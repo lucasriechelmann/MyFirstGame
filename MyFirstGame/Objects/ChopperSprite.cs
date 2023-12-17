@@ -10,7 +10,8 @@ namespace MyFirstGame.Objects;
 public class ChopperSprite : BaseGameObject
 {
     private const float Speed = 4.0f;
-    private const float BladeSpeed = 0.2f;
+    private const float _bladeSpeed = 0.2f;
+    private float BladeSpeed = 0.2f;
 
     // which chopper do we want from the texture
     private const int ChopperStartX = 0;
@@ -59,7 +60,7 @@ public class ChopperSprite : BaseGameObject
         AddBoundingBox(new Engine.Objects.Colisions.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
     }
 
-    public void Update()
+    public void Update(GameTime gameTime)
     {
         // Choppers follow a path where the direction changes at a certain frame, which is tracked by the chopper's age
         foreach (var p in _path)
@@ -73,9 +74,12 @@ public class ChopperSprite : BaseGameObject
             }
         }
 
-        Position = Position + (_direction * Speed);
+        var speed = GetAdjustedSpeed(Speed, gameTime);
+
+        Position = Position + (_direction * speed);
 
         _age++;
+        BladeSpeed = GetAdjustedSpeed(_bladeSpeed, gameTime);
     }
 
     public override void Render(SpriteBatch spriteBatch)

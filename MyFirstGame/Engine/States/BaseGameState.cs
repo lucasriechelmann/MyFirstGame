@@ -38,9 +38,12 @@ public abstract class BaseGameState
 
     public virtual void LoadContent()
     {
-        _statsText = new StatsObject(LoadFont(StatsFont));
-        _statsText.Position = new Vector2(10, 10);
-        AddGameObject(_statsText);
+        if(_debug)
+        {
+            _statsText = new StatsObject(LoadFont(StatsFont));
+            _statsText.Position = new Vector2(10, 10);
+            AddGameObject(_statsText);
+        }        
     }
     public abstract void HandleInput(GameTime gameTime);
     public abstract void UpdateGameState(GameTime gameTime);
@@ -55,7 +58,8 @@ public abstract class BaseGameState
     {
         UpdateGameState(gameTime);
 
-        _statsText.Update(gameTime);
+        if (_debug)
+            _statsText.Update(gameTime);
 
         _soundManager.PlaySoundtrack();
     }

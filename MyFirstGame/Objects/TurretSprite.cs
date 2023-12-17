@@ -66,8 +66,9 @@ public class TurretSprite : BaseGameObject
 
     public void Update(GameTime gameTime, Vector2 currentPlayerCenter)
     {
+        var moveSpeed = GetAdjustedSpeed(_moveSpeed, gameTime);
         // move turret down
-        Position = Vector2.Add(_position, new Vector2(0, _moveSpeed));
+        Position = Vector2.Add(_position, new Vector2(0, moveSpeed));
 
         // if turret is not active, it cannot spin or shoot
         if (!Active)
@@ -95,11 +96,11 @@ public class TurretSprite : BaseGameObject
 
             if (angleDiff > tolerance)
             {
-                MoveLeft();
+                MoveLeft(gameTime);
             }
             else if (angleDiff < -tolerance)
             {
-                MoveRight();
+                MoveRight(gameTime);
             }
 
             if (angleTurret >= anglePlayer - tolerance && angleTurret <= anglePlayer + tolerance)
@@ -140,15 +141,15 @@ public class TurretSprite : BaseGameObject
         spriteBatch.Draw(_cannonTexture, cannonPosition, _cannonTexture.Bounds, Color.White, _angle, _cannonCenterPosition, Scale, SpriteEffects.None, 0f);
     }
 
-    public void MoveLeft()
+    public void MoveLeft(GameTime gameTime)
     {
-        _angle -= AngleSpeed;
+        _angle -= GetAdjustedSpeed(AngleSpeed, gameTime);
         _direction = CalculateDirection(AngleOffset);
     }
 
-    public void MoveRight()
+    public void MoveRight(GameTime gameTime)
     {
-        _angle += AngleSpeed;
+        _angle += GetAdjustedSpeed(AngleSpeed, gameTime);
         _direction = CalculateDirection(AngleOffset);
     }
 

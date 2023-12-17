@@ -80,4 +80,5 @@ public abstract class BaseGameObject
         _boundingBoxTexture = new Texture2D(graphicsDevice, 1, 1);
         _boundingBoxTexture.SetData<Color>(new Color[] { Color.White });
     }
+    protected float GetAdjustedSpeed(float speed, GameTime gameTime) => speed * 60 * (float)gameTime.ElapsedGameTime.TotalSeconds;
 }

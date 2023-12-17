@@ -138,25 +138,25 @@ public class GameplayState : BaseGameState
 
             if (cmd is GameplayInputCommand.PlayerMoveUp)
             {
-                _playerSprite.MoveUp();
+                _playerSprite.MoveUp(gameTime);
                 KeepPlayerInBounds();
             }
 
             if (cmd is GameplayInputCommand.PlayerMoveDown)
             {
-                _playerSprite.MoveDown();
+                _playerSprite.MoveDown(gameTime);
                 KeepPlayerInBounds();
             }
 
             if (cmd is GameplayInputCommand.PlayerMoveLeft)
             {
-                _playerSprite.MoveLeft();
+                _playerSprite.MoveLeft(gameTime);
                 KeepPlayerInBounds();
             }
 
             if (cmd is GameplayInputCommand.PlayerMoveRight)
             {
-                _playerSprite.MoveRight();
+                _playerSprite.MoveRight(gameTime);
                 KeepPlayerInBounds();
             }
 
@@ -179,7 +179,7 @@ public class GameplayState : BaseGameState
 
         foreach (var bullet in _bulletList)
         {
-            bullet.MoveUp();
+            bullet.MoveUp(gameTime);
         }
 
         foreach (var missile in _missileList)
@@ -189,7 +189,7 @@ public class GameplayState : BaseGameState
 
         foreach (var chopper in _enemyList)
         {
-            chopper.Update();
+            chopper.Update(gameTime);
         }
 
         foreach (var turret in _turretList)
@@ -200,7 +200,7 @@ public class GameplayState : BaseGameState
 
         foreach (var bullet in _turretBulletList)
         {
-            bullet.Update();
+            bullet.Update(gameTime);
         }
 
         UpdateExplosions(gameTime);

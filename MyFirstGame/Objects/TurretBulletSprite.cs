@@ -29,7 +29,7 @@ namespace MyFirstGame.Objects
             _angle = angle;
         }
 
-        public void Update() => Position = Position + _direction * BULLET_SPEED;
+        public void Update(GameTime gameTime) => Position = Position + _direction * GetAdjustedSpeed(BULLET_SPEED, gameTime);
         public override void Render(SpriteBatch spriteBatch) =>
             spriteBatch.Draw(_texture, 
                 _position, 

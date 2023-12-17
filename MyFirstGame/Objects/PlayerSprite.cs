@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MyFirstGame.Engine.Objects;
 using MyFirstGame.Engine.Objects.Animations;
+using System;
 
 namespace MyFirstGame.Objects;
 
@@ -76,28 +77,30 @@ public class PlayerSprite : BaseGameObject
         }
     }
 
-    public void MoveLeft()
+    public void MoveLeft(GameTime gameTime)
     {
         _movingLeft = true;
         _movingRight = false;
         _currentAnimation = _turnLeftAnimation;
         _leftToCenterAnimation.Reset();
         _turnRightAnimation.Reset();
-        Position = new Vector2(Position.X - PlayerHorizontalSpeed, Position.Y);
+        Position = new Vector2(Position.X - GetAdjustedSpeed(PlayerHorizontalSpeed, gameTime), Position.Y);
     }
 
-    public void MoveRight()
+    public void MoveRight(GameTime gameTime)
     {
         _movingRight = true;
         _movingLeft = false;
         _currentAnimation = _turnRightAnimation;
         _rightToCenterAnimation.Reset();
         _turnLeftAnimation.Reset();
-        Position = new Vector2(Position.X + PlayerHorizontalSpeed, Position.Y);
+        Position = new Vector2(Position.X + GetAdjustedSpeed(PlayerHorizontalSpeed, gameTime), Position.Y);
     }
 
-    public void MoveUp() => Position = new Vector2(Position.X, Position.Y - PlayerVerticalSpeed);
-    public void MoveDown() => Position = new Vector2(Position.X, Position.Y + PlayerVerticalSpeed);
+    public void MoveUp(GameTime gameTime) => 
+        Position = new Vector2(Position.X, Position.Y - GetAdjustedSpeed(PlayerVerticalSpeed, gameTime));
+    public void MoveDown(GameTime gameTime) => 
+        Position = new Vector2(Position.X, Position.Y + GetAdjustedSpeed(PlayerVerticalSpeed, gameTime));
     public void Update(GameTime gametime)
     {
         if (_currentAnimation != null)

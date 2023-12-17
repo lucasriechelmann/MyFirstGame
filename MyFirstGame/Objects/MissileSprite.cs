@@ -64,8 +64,8 @@ public class MissileSprite : BaseGameObject, IGameObjectWithDamage
     public void Update(GameTime gameTime)
     {
         _exhaustEmitter.Update(gameTime);
-
-        Position = new Vector2(Position.X, Position.Y - _speed);
+        var speed = GetAdjustedSpeed(_speed, gameTime);
+        Position = new Vector2(Position.X, Position.Y - speed);
         _speed = _speed + Acceleration;
     }
 
