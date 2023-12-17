@@ -10,7 +10,7 @@ public class SplashState : BaseGameState
 {
     public override void LoadContent()
     {
-        // TODO: Add Content Loading
+        base.LoadContent();
 
         AddGameObject(new SplashImage(LoadTexture("png\\splash"), _viewPortWidth, _viewPortHeight));
     }

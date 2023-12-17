@@ -80,6 +80,7 @@ public class GameplayState : BaseGameState
 
     public override void LoadContent()
     {
+        base.LoadContent();
         _missileTexture = LoadTexture(MissileTexture);
         _exhaustTexture = LoadTexture(ExhaustTexture);
         _bulletTexture = LoadTexture(BulletTexture);

@@ -16,8 +16,7 @@ public class LivesText : BaseTextObject
             Text = $"Lives: {_nbLives}";
         }
     }
-    public LivesText(SpriteFont font)
+    public LivesText(SpriteFont font) : base(font)
     {
-        _font = font;
     }
 }

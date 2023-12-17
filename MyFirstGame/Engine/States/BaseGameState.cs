@@ -24,6 +24,9 @@ public abstract class BaseGameState
 
     protected InputManager InputManager { get; set; }
 
+    private const string StatsFont = "font/Stats";
+    private StatsObject _statsText;
+
     public void Initialize(ContentManager contentManager, int viewPortWidth, int viewPortHeight)
     {
         _contentManager = contentManager;
@@ -33,7 +36,12 @@ public abstract class BaseGameState
         SetInputManager();
     }
 
-    public abstract void LoadContent();
+    public virtual void LoadContent()
+    {
+        _statsText = new StatsObject(LoadFont(StatsFont));
+        _statsText.Position = new Vector2(10, 10);
+        AddGameObject(_statsText);
+    }
     public abstract void HandleInput(GameTime gameTime);
     public abstract void UpdateGameState(GameTime gameTime);
 
@@ -46,6 +54,9 @@ public abstract class BaseGameState
     public void Update(GameTime gameTime)
     {
         UpdateGameState(gameTime);
+
+        _statsText.Update(gameTime);
+
         _soundManager.PlaySoundtrack();
     }
 

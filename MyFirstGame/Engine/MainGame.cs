@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MyFirstGame.Engine.Objects;
 using MyFirstGame.Engine.States;
 
 namespace MyFirstGame.Engine
@@ -8,7 +9,7 @@ namespace MyFirstGame.Engine
     /// This is the main type for your game.
     /// </summary>
     public class MainGame : Game
-    {
+    {        
         private BaseGameState _currentGameState;
 
         private GraphicsDeviceManager _graphics;

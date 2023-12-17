@@ -27,6 +27,13 @@
 /processorParam:TextureFormat=Compressed
 /build:font/Lives.spritefont
 
+#begin font/Stats.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:font/Stats.spritefont
+
 #begin music/FutureAmbient_1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
