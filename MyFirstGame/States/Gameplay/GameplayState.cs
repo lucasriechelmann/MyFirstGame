@@ -109,7 +109,7 @@ public class GameplayState : BaseGameState
         var track2 = LoadSound("music\\FutureAmbient_2").CreateInstance();
         _soundManager.SetSoundtrack(track1, track2);
 
-        _chopperGenerator = new ChopperGenerator(_chopperTexture, _viewPortWidth, _viewPortHeight, AddChopper);
+        _chopperGenerator = new ChopperGenerator(_chopperTexture, _viewPortWidth, AddChopper);
 
         var levelReader = new LevelReader(_viewPortWidth);
         _level = new Level(levelReader);
@@ -238,17 +238,34 @@ public class GameplayState : BaseGameState
     private void _level_OnLevelStart(object sender, LevelEvents.StartLevel e)
     {
         _levelStartEndText.Text = "Good luck, Player 1!";
-        _levelStartEndText.Position = new Vector2(350, 300);
+        _levelStartEndText.Position = new Vector2(
+            GetCenterXPositionOfGameObject(_levelStartEndText),
+            GetCenterYPositionOfGameObject(_levelStartEndText));
         AddGameObject(_levelStartEndText);
     }
 
     private void _level_OnLevelEnd(object sender, LevelEvents.EndLevel e)
     {
         _levelStartEndText.Text = "You escaped. Congrats!";
-        _levelStartEndText.Position = new Vector2(300, 300);
+        _levelStartEndText.Position = new Vector2(
+            GetCenterXPositionOfGameObject(_levelStartEndText),
+            GetCenterYPositionOfGameObject(_levelStartEndText));
         AddGameObject(_levelStartEndText);
     }
+    int GetCenterXPositionOfGameObject(BaseGameObject gameObject)
+    {
+        if (gameObject is GameOverText textGameObject)
+            return (_viewPortWidth / 2 - textGameObject.FontWidth / 2);
 
+        return (_viewPortWidth / 2 - gameObject.Width / 2);
+    }
+    int GetCenterYPositionOfGameObject(BaseGameObject gameObject)
+    {
+        if(gameObject is GameOverText textGameObject)
+            return (_viewPortHeight / 2 - textGameObject.FontHeight / 2);
+
+        return (_viewPortHeight / 2 - gameObject.Height / 2);
+    }
     private void _level_OnLevelNoRowEvent(object sender, LevelEvents.NoRowEvent e)
     {
         RemoveGameObject(_levelStartEndText);
