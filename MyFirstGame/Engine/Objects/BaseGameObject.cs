@@ -15,6 +15,7 @@ public abstract class BaseGameObject
     protected float _angle;
     protected Vector2 _direction;
     protected List<Colisions.BoundingBox> _boundingBoxes = new List<Colisions.BoundingBox>();
+    protected bool _isActivated = false;
     public int zIndex { get; set; }
     public event EventHandler<BaseGameStateEvent> OnObjectChanged;
 
@@ -81,4 +82,16 @@ public abstract class BaseGameObject
         _boundingBoxTexture.SetData<Color>(new Color[] { Color.White });
     }
     protected float GetAdjustedSpeed(float speed, GameTime gameTime) => speed * 60 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+    public virtual void Activate()
+    {
+        _isActivated = true;
+    }
+    public virtual void Deactivate()
+    {
+        _isActivated = false;
+    }
+    public virtual void Initialize()
+    {
+
+    }
 }
