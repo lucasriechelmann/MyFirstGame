@@ -4,6 +4,7 @@ using MyFirstGame.Engine.Objects;
 using MyFirstGame.Engine.States;
 using MyFirstGame.States.Gameplay;
 using System.Collections.Generic;
+using System.IO;
 
 namespace MyFirstGame.Objects;
 
@@ -60,25 +61,24 @@ public class ChopperSprite : BaseGameObject
         AddBoundingBox(new Engine.Objects.Colisions.BoundingBox(new Vector2(BBPosX, BBPosY), BBWidth, BBHeight));
     }
 
+    public override void Initialize()
+    {
+        _age = 0;
+        _life = 40;
+        _hitAt = 100;
+
+        base.Initialize();
+    }
     public void Update(GameTime gameTime)
     {
-        // Choppers follow a path where the direction changes at a certain frame, which is tracked by the chopper's age
-        foreach (var p in _path)
-        {
-            int pAge = p.Item1;
-            Vector2 pDirection = p.Item2;
-
-            if (_age > pAge)
-            {
-                _direction = pDirection;
-            }
-        }
+        _age++;
+        SetDirection();
 
         var speed = GetAdjustedSpeed(Speed, gameTime);
 
         Position = Position + (_direction * speed);
 
-        _age++;
+        
         BladeSpeed = GetAdjustedSpeed(_bladeSpeed, gameTime);
     }
 
@@ -114,7 +114,23 @@ public class ChopperSprite : BaseGameObject
         _hitAt = 0;
         _life -= o.Damage;
     }
+    private void SetDirection()
+    {
+        // Choppers follow a path where the direction changes at a certain frame, which is tracked by the chopper's age
+        if (_path != null)
+        {
+            foreach (var p in _path)
+            {
+                int pAge = p.Item1;
+                Vector2 pDirection = p.Item2;
 
+                if (_age > pAge)
+                {
+                    _direction = pDirection;
+                }
+            }
+        }
+    }
     private Color GetColor()
     {
         var color = Color.White;

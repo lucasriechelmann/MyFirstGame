@@ -1,36 +1,24 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using MyFirstGame.Objects;
-using System.Collections.Generic;
-using System;
-using Microsoft.Xna.Framework;
+﻿using System;
 
 namespace MyFirstGame.States.Gameplay;
 
 public class ChopperGenerator
 {
     private bool _generateLeft = true;
-    private Vector2 _leftVector = new Vector2(-1, 0);
-    private Vector2 _downLeftVector = new Vector2(-1, 1);
-    private Vector2 _rightVector = new Vector2(1, 0);
-    private Vector2 _downRightVector = new Vector2(1, 1);
-    private int _viewPortWidth;
 
     private System.Timers.Timer _timer;
-    private Func<List<(int, Vector2)>, ChopperSprite> _chopperHandler;
+    private Action<bool> _chopperHandler;
     private int _maxChoppers = 0;
     private int _choppersGenerated = 0;
     private bool _generating = false;
 
-    public ChopperGenerator(int viewPortWidth, Func<List<(int, Vector2)>, ChopperSprite> handler)
+    public ChopperGenerator(Action<bool> handler)
     {
         _chopperHandler = handler;
 
-        _downLeftVector.Normalize();
-        _downRightVector.Normalize();
-
-        _timer = new System.Timers.Timer(500);
+        _timer = new System.Timers.Timer();
+        _timer.Interval = 500;
         _timer.Elapsed += _timer_Elapsed;
-        _viewPortWidth = viewPortWidth;
     }
 
     public void GenerateChoppers(int nbChoppers)
@@ -49,38 +37,17 @@ public class ChopperGenerator
     {
         _timer.Stop();
         _generating = false;
+        _generateLeft = true;
     }
 
     private void _timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
     {
-        List<(int, Vector2)> path;
-        if (_generateLeft)
-        {
-            path = new List<(int, Vector2)>
-                {
-                    (0, _rightVector),
-                    (2 * 60, _downRightVector),
-                };
-
-            var chopper = _chopperHandler(path);
-            chopper.Position = new Vector2(-200, 100);
-        }
-        else
-        {
-            path = new List<(int, Vector2)>
-                {
-                    (0, _leftVector),
-                    (2 * 60, _downLeftVector),
-                };
-
-            var chopper = _chopperHandler(path);
-            chopper.Position = new Vector2(_viewPortWidth + 200, 100);            
-        }
+        _chopperHandler(_generateLeft);
 
         _generateLeft = !_generateLeft;
 
         _choppersGenerated++;
-        if (_choppersGenerated == _maxChoppers)
+        if (_choppersGenerated >= _maxChoppers)
         {
             StopGenerating();
         }

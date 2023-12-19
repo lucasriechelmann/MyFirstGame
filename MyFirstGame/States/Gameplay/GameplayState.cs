@@ -110,7 +110,7 @@ public class GameplayState : BaseGameState
         var track2 = LoadSound("music\\FutureAmbient_2").CreateInstance();
         _soundManager.SetSoundtrack(track1, track2);
 
-        _chopperGenerator = new ChopperGenerator(_viewPortWidth, GetOrCreateChopper);
+        _chopperGenerator = new ChopperGenerator(AddChopper);
 
         var levelReader = new LevelReader(_viewPortWidth);
         _level = new Level(levelReader);
@@ -461,12 +461,43 @@ public class GameplayState : BaseGameState
         AddGameObject(gameOverText);
         _gameOver = true;
     }
-    private ChopperSprite GetOrCreateChopper(List<(int, Vector2)> path)
+    private void AddChopper(bool generateOnLeftSide)
     {
-        var chopper = _enemyList.GetOrCreate(() => new ChopperSprite(_chopperTexture, path));
-        chopper.OnObjectChanged += _onObjectChanged;
-        AddGameObject(chopper);
-        return chopper;
+        Vector2 leftVector = new Vector2(-1, 0);
+        Vector2 rightVector = new Vector2(1, 0);
+        Vector2 downLeftVector = new Vector2(-1, 1);
+        Vector2 downRightVector = new Vector2(1, 1);
+        downLeftVector.Normalize();
+        downRightVector.Normalize();
+
+        List<(int, Vector2)> path;
+        Vector2 pos;
+        if (generateOnLeftSide)
+        {
+            path = new List<(int, Vector2)>
+                {
+                    (0, rightVector),
+                    (2 * 60, downRightVector),
+                };
+
+            pos = new Vector2(-200, 100);
+        }
+        else
+        {
+            path = new List<(int, Vector2)>
+                {
+                    (0, leftVector),
+                    (2 * 60, downLeftVector),
+                };
+
+            pos = new Vector2(1500, 100);
+        }
+
+        var newChopper = _enemyList.GetOrCreate(() => new ChopperSprite(_chopperTexture, path));
+
+        newChopper.Position = pos;
+        newChopper.OnObjectChanged += _onObjectChanged;
+        AddGameObject(newChopper);
     }
     private void DeactivateObjects<T>(IGameObjectPool<T> objectList, Func<T, bool> predicate) where T : BaseGameObject
     {
