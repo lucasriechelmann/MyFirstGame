@@ -10,7 +10,7 @@ public class MissileSprite : BaseGameObject, IGameObjectWithDamage
     private const float StartSpeed = 0.5f;
     private const float Acceleration = 0.15f;
 
-    private float _speed = StartSpeed;
+    private float _speed;
 
     // keep track of scaled down texture size
     private int _missileHeight;
@@ -23,14 +23,17 @@ public class MissileSprite : BaseGameObject, IGameObjectWithDamage
     {
         set
         {
+            base.Position = value;
+
             var emitterOffsetX = 18;
             var emitterOffsetY = -10;
 
             var emitterPosX = _position.X + emitterOffsetX;
             var emitterPosY = _position.Y + _missileHeight + emitterOffsetY;
 
-            _exhaustEmitter.Position = new Vector2(emitterPosX, emitterPosY);
-            base.Position = value;
+            if(_exhaustEmitter is not null)
+                _exhaustEmitter.Position = new Vector2(emitterPosX, emitterPosY);
+            
         }
     }
 
@@ -60,7 +63,28 @@ public class MissileSprite : BaseGameObject, IGameObjectWithDamage
 
         AddBoundingBox(new Engine.Objects.Colisions.BoundingBox(new Vector2(bbPositionX, bbPositionY), bbWidth, bbHeight));
     }
+    public override void Initialize()
+    {
+        _speed = StartSpeed;
+        if (_exhaustEmitter != null)
+        {
+            _exhaustEmitter.DeactivaleAllParticules();
+        }
 
+        base.Initialize();
+    }
+
+    public override void Activate()
+    {
+        base.Activate();
+        _exhaustEmitter.Activate();
+    }
+
+    public override void Deactivate()
+    {
+        base.Deactivate();
+        _exhaustEmitter.Deactivate();
+    }
     public void Update(GameTime gameTime)
     {
         _exhaustEmitter.Update(gameTime);

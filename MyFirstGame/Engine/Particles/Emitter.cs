@@ -14,7 +14,6 @@ public class Emitter : BaseGameObject
     private IEmitterType _emitterType;
     private int _nbParticleEmittedPerUpdate = 0;
     private int _maxNbParticle = 0;
-    private bool _active = true;
 
     public int Age { get; set; }
 
@@ -28,10 +27,14 @@ public class Emitter : BaseGameObject
         Position = position;
         Age = 0;
     }
-
+    public override void Initialize()
+    {
+        base.Initialize();
+        Age = 0;
+    }
     public void Update(GameTime gameTime)
     {
-        if (_active)
+        if (Active)
         {
             EmitParticles();
         }
@@ -62,12 +65,30 @@ public class Emitter : BaseGameObject
             spriteBatch.Draw(_texture, particle.Position, sourceRectangle, Color.White * particle.Opacity, 0.0f, new Vector2(0, 0), particle.Scale, SpriteEffects.None, zIndex);
         }
     }
-    public void Deactivate() => _active = false;
+    public void DeactivaleAllParticules()
+    {
+        var particleNode = _activeParticles.First;
+        while (particleNode != null)
+        {
+            var nextNode = particleNode.Next;
+            DeactivateParticle(particleNode);
+
+            particleNode = nextNode;
+        }
+    }
+
+    private void DeactivateParticle(LinkedListNode<Particle> particleNode)
+    {
+        _activeParticles.Remove(particleNode);
+        _inactiveParticles.AddLast(particleNode.Value);
+    }
     private void EmitParticles()
     {
         // make sure we're not at max particles
         if (_activeParticles.Count >= _maxNbParticle)
+        {
             return;
+        }
 
         var maxAmountThatCanBeCreated = _maxNbParticle - _activeParticles.Count;
         var neededParticles = Math.Min(maxAmountThatCanBeCreated, _nbParticleEmittedPerUpdate);
@@ -80,17 +101,17 @@ public class Emitter : BaseGameObject
         {
             var particleNode = _inactiveParticles.First;
 
-            EmitNewParticle(particleNode.Value);
+            InitializeParticle(particleNode.Value);
             _inactiveParticles.Remove(particleNode);
         }
 
         for (var i = 0; i < nbToCreate; i++)
         {
-            EmitNewParticle(new Particle());
+            InitializeParticle(new Particle());
         }
     }
 
-    private void EmitNewParticle(Particle particle)
+    private void InitializeParticle(Particle particle)
     {
         var lifespan = _emitterParticleState.GenerateLifespan();
         var velocity = _emitterParticleState.GenerateVelocity();

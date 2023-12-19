@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyFirstGame.Engine.Objects;
 
-public class GameObjectPool<T> where T : BaseGameObject
+public class GameObjectPool<T> : IGameObjectPool<T> where T : BaseGameObject
 {
     private LinkedList<T> _activePool = new LinkedList<T>();
     private LinkedList<T> _inactivePool = new LinkedList<T>();
