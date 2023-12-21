@@ -5,9 +5,11 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFirstGame", "MyFirstGame\MyFirstGame.csproj", "{043B9A08-F2CB-4E38-8E32-F28F63B298F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine2DPipelineExtensions", "Engine2DPipelineExtensions\Engine2DPipelineExtensions.csproj", "{6F386A36-26AA-4934-BD87-20FC7A90A8A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Engine2DPipelineExtensions", "Engine2DPipelineExtensions\Engine2DPipelineExtensions.csproj", "{6F386A36-26AA-4934-BD87-20FC7A90A8A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PipelineExtensions", "PipelineExtensions\PipelineExtensions.csproj", "{097174AC-FDED-4781-9A92-61194DDD1D0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PipelineExtensions", "PipelineExtensions\PipelineExtensions.csproj", "{097174AC-FDED-4781-9A92-61194DDD1D0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{D01525F0-C62E-474D-A571-7EAC7B7C4BCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{097174AC-FDED-4781-9A92-61194DDD1D0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{097174AC-FDED-4781-9A92-61194DDD1D0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{097174AC-FDED-4781-9A92-61194DDD1D0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D01525F0-C62E-474D-A571-7EAC7B7C4BCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D01525F0-C62E-474D-A571-7EAC7B7C4BCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D01525F0-C62E-474D-A571-7EAC7B7C4BCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D01525F0-C62E-474D-A571-7EAC7B7C4BCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
