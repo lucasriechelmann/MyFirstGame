@@ -1,4 +1,4 @@
-﻿namespace PipelineExtensions;
+﻿namespace Engine2D.Objects.Atlas;
 
 public class TileBlockDefinition
 {

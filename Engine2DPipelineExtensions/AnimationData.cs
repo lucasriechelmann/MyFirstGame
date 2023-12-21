@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Engine2DPipelineExtensions;
+namespace PipelineExtensions;
 
 public class AnimationData
 {

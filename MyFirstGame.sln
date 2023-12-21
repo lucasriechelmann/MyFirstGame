@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PipelineExtensions", "Pipel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{D01525F0-C62E-474D-A571-7EAC7B7C4BCA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{82C15FB0-3BBE-4988-BFC5-5D1EAFFD824D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{D01525F0-C62E-474D-A571-7EAC7B7C4BCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D01525F0-C62E-474D-A571-7EAC7B7C4BCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D01525F0-C62E-474D-A571-7EAC7B7C4BCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82C15FB0-3BBE-4988-BFC5-5D1EAFFD824D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82C15FB0-3BBE-4988-BFC5-5D1EAFFD824D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82C15FB0-3BBE-4988-BFC5-5D1EAFFD824D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82C15FB0-3BBE-4988-BFC5-5D1EAFFD824D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

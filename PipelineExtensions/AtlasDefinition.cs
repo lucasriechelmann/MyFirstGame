@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PipelineExtensions;
+namespace Engine2D.Objects.Atlas;
 public class AtlasDefinition
 {
     public int Width;

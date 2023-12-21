@@ -1,4 +1,4 @@
-﻿namespace Engine2DPipelineExtensions;
+﻿namespace PipelineExtensions;
 
 public class AnimationFrameData
 {
